@@ -88,7 +88,7 @@
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   }
   .mute-btn {
-    position: fixed; bottom: 16px; right: 16px; z-index: 90; width: 46px; height: 46px; border-radius: 50%; display: none; place-items: center; cursor: pointer;
+    position: fixed; bottom: 16px; right: 14px; z-index: 90; width: 46px; height: 46px; border-radius: 50%; display: none; place-items: center; cursor: pointer;
     color: var(--gold); background: rgba(42,11,19,.6); border: 1px solid var(--glass-line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   }
   .mute-btn.show { display: grid; }
@@ -96,29 +96,43 @@
   .mute-btn.muted .on { display: none; } .mute-btn.muted .off { display: block; }
   .lang-btn:focus-visible, .mute-btn:focus-visible { outline: 3px solid var(--blush); outline-offset: 3px; }
 
+  .auto-btn { position: fixed; bottom: 70px; right: 14px; z-index: 90; width: 46px; height: 46px; border-radius: 50%; display: none; place-items: center; cursor: pointer; color: var(--gold); background: rgba(42,11,19,.6); border: 1px solid var(--glass-line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .auto-btn.show { display: grid; }
+  .auto-btn .play { display: none; }
+  .auto-btn.paused .pause { display: none; }
+  .auto-btn.paused .play { display: block; }
+  .auto-btn:focus-visible { outline: 3px solid var(--blush); outline-offset: 3px; }
+
   /* ---------- page ---------- */
   main { max-width: 640px; margin: 0 auto; padding: 0 22px 60px; }
-  .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 56px 0 30px; }
+  .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px 0 22px; }
   .greet { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 1.25rem; color: var(--gold); margin-bottom: 10px; }
   .shloka { font-family: 'Noto Serif Telugu', serif; color: var(--gold); font-size: 1.05rem; margin-bottom: 4px; }
   .shloka-en { color: var(--muted); font-size: .8rem; letter-spacing: .04em; }
 
-  .art { width: min(380px, 92%); margin: 10px auto 0; filter: drop-shadow(0 18px 40px rgba(0,0,0,.45)); animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both; }
-  .art svg { width: 100%; height: auto; display: block; }
+  .art { height: clamp(170px, 31svh, 330px); margin: 8px auto 0; display: flex; justify-content: center; filter: drop-shadow(0 18px 40px rgba(0,0,0,.45)); animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both; }
+  .art svg { width: auto; height: 100%; max-width: 100%; display: block; }
   .flame { transform-origin: center bottom; animation: flicker 1.4s ease-in-out infinite alternate; }
   .flame.b { animation-delay: -.7s; }
   @keyframes flicker { from { transform: scale(1, 1); opacity: .95; } to { transform: scale(.85, 1.2); opacity: 1; } }
 
-  .intro { color: var(--muted); margin: 6px 0 12px; max-width: 36ch; }
-  .names { font-family: 'Great Vibes', 'Noto Serif Telugu', cursive; font-weight: 400; font-size: clamp(2.7rem, 14vw, 4.9rem); line-height: 1.18; letter-spacing: .01em; animation: rise 1.1s .15s cubic-bezier(.2,.7,.2,1) both; }
-  html[lang="te"] .names { font-family: 'Noto Serif Telugu', serif; font-weight: 700; font-size: clamp(1.9rem, 9.5vw, 3.2rem); line-height: 1.45; }
+  .intro { color: var(--muted); margin: 4px 0 6px; max-width: 36ch; }
+  .names { font-family: 'Great Vibes', 'Noto Serif Telugu', cursive; font-weight: 400; font-size: clamp(2rem, min(11vw, 8svh), 4.1rem); line-height: 1.18; letter-spacing: .01em; animation: rise 1.1s .15s cubic-bezier(.2,.7,.2,1) both; }
+  html[lang="te"] .names { font-family: 'Noto Serif Telugu', serif; font-weight: 700; font-size: clamp(1.5rem, min(7.8vw, 5.6svh), 2.7rem); line-height: 1.45; }
   .names .nm { display: inline-block; padding: 0 .08em; background: linear-gradient(100deg, #ffe9b8 0%, #f6c860 35%, #ffd9a0 60%, #e8a840 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 4px 18px rgba(240,185,85,.28)); }
   .names .amp { display: block; font-family: var(--serif); font-style: italic; font-weight: 300; font-size: .36em; color: var(--saffron); margin: .1em 0; line-height: 1.2; }
   @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 
-  .when { margin-top: 28px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; align-items: center; padding: 14px 26px; border-radius: 999px; font-weight: 500; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .when { margin-top: 16px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; align-items: center; padding: 14px 26px; border-radius: 999px; font-weight: 500; background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
   .when i { width: 1px; height: 18px; background: var(--glass-line); }
-  .scroll-hint { margin-top: 34px; color: var(--muted); font-size: .85rem; text-decoration: none; }
+  .where { margin-top: 10px; color: var(--muted); font-size: .95rem; }
+  .more { margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; padding: 11px 24px; border-radius: 999px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; font-weight: 600; background: rgba(240,185,85,.08); }
+  .more svg { animation: bob 1.4s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(5px); } }
+  .more:focus-visible { outline: 3px solid var(--blush); outline-offset: 3px; }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
 
   .count { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 30px; }
   .count div { background: var(--glass); border: 1px solid var(--glass-line); border-radius: 18px; padding: 16px 4px; text-align: center; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
@@ -182,7 +196,8 @@
   html[lang="te"] .love .signature { font-family: 'Noto Serif Telugu', serif; font-weight: 700; font-size: 2rem; }
 
   @media (prefers-reduced-motion: reduce) {
-    .glow span, .names, .art, .flame, .petal, .open-btn { animation: none; }
+    .glow span, .names, .art, .flame, .petal, .open-btn, .more svg { animation: none; }
+    .reveal { transition: none; }
     .door, .gate-center { transition: none; }
     .petals { display: none; }
     html { scroll-behavior: auto; }
@@ -197,6 +212,10 @@
 <button class="mute-btn" id="muteBtn" type="button" aria-label="Mute or unmute music">
   <svg class="on" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
   <svg class="off" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3zm13.6 2 2.4-2.4-1.4-1.4L15.2 10.6 12.8 8.2l-1.4 1.4 2.4 2.4-2.4 2.4 1.4 1.4 2.4-2.4 2.4 2.4 1.4-1.4z"/></svg>
+</button>
+<button class="auto-btn" id="autoBtn" type="button" aria-label="Pause or resume auto-scroll">
+  <svg class="pause" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+  <svg class="play" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
 </button>
 <audio id="bgm" loop preload="none"></audio>
 
@@ -294,7 +313,10 @@
       <span class="nm" id="bride">Bride</span>
     </h1>
     <div class="when"><span data-i18n="date">25 November 2026</span><i></i><span data-i18n="time">9:25 AM</span></div>
-    <a class="scroll-hint" href="#details" data-i18n="hint">Scroll for details ↓</a>
+    <p class="where" data-i18n="whereShort">Sri Krishna Function Hall, Ieeja</p>
+    <a class="more" href="#details"><span data-i18n="hint">View details</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </a>
   </section>
 
   <section id="details">
@@ -393,7 +415,7 @@ const T = {
   en: {
     gateTitle: "Wedding Invitation", gateBtn: "Tap to open",
     intro: "Together with our families, we invite you to the wedding of",
-    date: "25 November 2026", time: "9:25 AM", hint: "Scroll for details ↓",
+    date: "25 November 2026", time: "9:25 AM", hint: "View details", whereShort: "Sri Krishna Function Hall, Ieeja",
     days: "days", hours: "hours", minutes: "minutes", seconds: "seconds",
     weddingTitle: "The Wedding", lead: "Two celebrations. One beautiful beginning.",
     eveTitle: "The Evening", eveKind: "Reception", dateLbl: "Date", timeLbl: "Time",
@@ -412,7 +434,7 @@ const T = {
   te: {
     gateTitle: "వివాహ ఆహ్వానం", gateBtn: "తెరవడానికి తాకండి",
     intro: "మా కుటుంబ సభ్యులతో కలిసి, మా వివాహ వేడుకకు మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము",
-    date: "25 నవంబర్ 2026", time: "ఉదయం 9:25", hint: "వివరాల కోసం కిందికి ↓",
+    date: "25 నవంబర్ 2026", time: "ఉదయం 9:25", hint: "వివరాలు చూడండి", whereShort: "శ్రీ కృష్ణ ఫంక్షన్ హాల్, ఐజ",
     days: "రోజులు", hours: "గంటలు", minutes: "నిమిషాలు", seconds: "సెకన్లు",
     weddingTitle: "వివాహ వేడుక", lead: "రెండు వేడుకలు. ఒక అందమైన ఆరంభం.",
     eveTitle: "సాయంత్ర వేడుక", eveKind: "రిసెప్షన్", dateLbl: "తేదీ", timeLbl: "సమయం",
@@ -646,6 +668,92 @@ const Music = (() => {
   return { start };
 })();
 
+/* ---------- gentle auto-scroll: glides section to section, pauses when touched ---------- */
+const Auto = (() => {
+  const btn = $('autoBtn');
+  const SELECTORS = ['.count', '.event.eve', '.event.cer', '[aria-labelledby="venueTitle"]', '[aria-labelledby="rsvpTitle"]', 'footer'];
+  const DWELL = 4200;      // how long each section stays on screen (ms)
+  const RESUME = 3000;     // wait after the guest stops touching/scrolling (ms)
+  let manualOff = false, finished = false, gliding = false, held = false, started = false;
+  let timer = null, raf = null, ignoreUntil = 0;
+
+  const maxY = () => document.documentElement.scrollHeight - innerHeight;
+  const targets = () => SELECTORS.map(q => {
+    const el = document.querySelector(q);
+    if (!el) return null;
+    return Math.min(maxY(), Math.max(0, el.getBoundingClientRect().top + scrollY - Math.min(90, innerHeight * 0.1)));
+  }).filter(v => v !== null);
+  const nextY = () => { const y = targets().find(v => v > scrollY + 30); return y === undefined ? null : y; };
+  const setBtn = () => btn.classList.toggle('paused', manualOff || finished);
+
+  function endGlide() {
+    if (raf) { cancelAnimationFrame(raf); raf = null; }
+    if (gliding) { gliding = false; document.documentElement.style.scrollBehavior = ''; ignoreUntil = performance.now() + 150; }
+  }
+  function clear() { clearTimeout(timer); timer = null; endGlide(); }
+  function schedule(ms) { clearTimeout(timer); timer = setTimeout(step, ms); }
+
+  function glide(to, done) {
+    const from = scrollY, dist = to - from;
+    const dur = Math.min(1700, Math.max(900, Math.abs(dist) * 1.1));
+    const t0 = performance.now();
+    const ease = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+    gliding = true;
+    document.documentElement.style.scrollBehavior = 'auto';
+    (function frame(now) {
+      const p = Math.min(1, (now - t0) / dur);
+      window.scrollTo(0, from + dist * ease(p));
+      if (p < 1) raf = requestAnimationFrame(frame);
+      else { raf = null; endGlide(); gliding = false; ignoreUntil = performance.now() + 150; done(); }
+    })(t0);
+  }
+
+  function step() {
+    timer = null;
+    if (manualOff || finished || held || document.hidden) return;
+    const y = nextY();
+    if (y === null) { finished = true; setBtn(); return; }     // reached the end: stop
+    glide(y, () => schedule(DWELL));
+  }
+
+  function userInput() {                         // guest is touching / scrolling: stop and wait
+    if (!started) return;
+    clear();
+    if (!held && !manualOff && !finished) schedule(RESUME);
+  }
+
+  addEventListener('touchstart', () => { held = true; userInput(); }, { passive: true });
+  addEventListener('touchend', () => { held = false; userInput(); }, { passive: true });
+  addEventListener('touchcancel', () => { held = false; userInput(); }, { passive: true });
+  addEventListener('mousedown', () => { held = true; userInput(); });
+  addEventListener('mouseup', () => { held = false; userInput(); });
+  addEventListener('wheel', userInput, { passive: true });
+  addEventListener('keydown', userInput);
+  addEventListener('scroll', () => { if (gliding || performance.now() < ignoreUntil) return; userInput(); }, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) clear();
+    else if (started && !manualOff && !finished) schedule(RESUME);
+  });
+
+  btn.addEventListener('click', () => {
+    if (manualOff || finished) {                 // play
+      const wasDone = finished || scrollY >= maxY() - 5;
+      manualOff = false; finished = false; setBtn(); clear();
+      if (wasDone) glide(0, () => schedule(DWELL)); else schedule(300);
+    } else {                                     // pause
+      manualOff = true; clear(); setBtn();
+    }
+  });
+
+  function start(delay) {
+    if (reduce) return;                          // respect "reduce motion"
+    started = true;
+    btn.classList.add('show');
+    schedule(delay);
+  }
+  return { start };
+})();
+
 /* ---------- open the temple doors ---------- */
 let opened = false;
 function openInvite() {
@@ -657,9 +765,20 @@ function openInvite() {
   burst();
   document.querySelectorAll('.art, .names').forEach(el => { el.style.animation = 'none'; void el.offsetHeight; el.style.animation = ''; });
   setTimeout(() => { gate.classList.add('done'); document.body.classList.remove('locked'); }, reduce ? 50 : 1700);
+  Auto.start(1700 + 3800);                       // show the first screen for a few seconds, then glide
 }
 $('openBtn').addEventListener('click', openInvite);
 $('openBtn').focus({ preventScroll: true });
+/* ---------- gentle reveal as sections scroll into view ---------- */
+(function () {
+  if (reduce || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.12 });
+  document.querySelectorAll('.count, #details > .sec-title, .lead, #details .card, footer').forEach(el => {
+    el.classList.add('reveal'); io.observe(el);
+  });
+})();
 </script>
 </body>
 </html>
