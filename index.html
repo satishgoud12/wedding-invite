@@ -139,6 +139,25 @@
   .count b { display: block; font-family: var(--serif); font-weight: 500; font-size: 2rem; color: var(--gold); line-height: 1.1; font-variant-numeric: tabular-nums; }
   .count small { color: var(--muted); font-size: .78rem; }
 
+  [hidden] { display: none !important; }
+  .done { position: relative; overflow: hidden; text-align: center; margin-bottom: 30px; padding: 30px 22px; border-radius: 28px; background: linear-gradient(160deg, rgba(255,240,215,.13), rgba(255,255,255,.04)); border: 1px solid var(--glass-line); box-shadow: 0 0 40px rgba(240,185,85,.18), 0 22px 50px rgba(0,0,0,.28); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .done.pop { animation: pop 1.1s cubic-bezier(.2,.9,.2,1.15) both; }
+  .done p { position: relative; font-family: var(--serif); font-weight: 500; font-size: clamp(1.5rem, 6.4vw, 2.2rem); line-height: 1.4;
+    background: linear-gradient(100deg, #ffe9b8 0%, #f6c860 28%, #ff9a5a 50%, #f6c860 72%, #ffe9b8 100%); background-size: 250% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 3.6s linear infinite; }
+  .spark { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px 3px rgba(240,185,85,.7); opacity: 0; animation: twinkle 2.4s ease-in-out infinite; }
+  @keyframes pop { from { opacity: 0; transform: scale(.7) translateY(24px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes shimmer { to { background-position: -250% 0; } }
+  @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(.4); } 50% { opacity: 1; transform: scale(1.2); } }
+
+  /* after the wedding (from 26 Nov, India time): a short thank-you page */
+  .post-only { display: none; }
+  body.after .post-only { display: block; }
+  body.after .when, body.after .where, body.after .more, body.after [data-i18n="weddingTitle"], body.after .lead,
+  body.after .event, body.after [aria-labelledby="venueTitle"], body.after [aria-labelledby="rsvpTitle"], body.after .auto-btn { display: none !important; }
+  body.after .hero { min-height: auto; padding-bottom: 36px; }
+  .keep-place { margin-top: 16px; }
+
   .card { background: linear-gradient(160deg, rgba(255,240,215,.11), rgba(255,255,255,.04)); border: 1px solid var(--glass-line); border-radius: 28px; padding: 30px 26px; margin-bottom: 18px; box-shadow: 0 22px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,235,200,.2); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
   section.card { margin-top: 18px; }
   .card.event { margin-top: 0; }
@@ -171,7 +190,11 @@
   .pin:focus-visible { outline: 3px solid var(--blush); outline-offset: 3px; }
   .venue-name { font-family: var(--serif); font-size: 1.25rem; letter-spacing: .04em; color: var(--ink); }
   .venue-addr { color: var(--muted); max-width: 34ch; margin: 4px auto 0; }
-  .phone { font-family: var(--serif); font-size: 1.6rem; color: var(--gold); margin-top: 12px; letter-spacing: .02em; }
+  .phones { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .phone-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px; }
+  .phone { font-family: var(--serif); font-size: 1.55rem; color: var(--gold); letter-spacing: .02em; }
+  .call-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; font-weight: 600; font-size: .9rem; text-decoration: none; color: #2a1604; background: linear-gradient(135deg, #ffd47a, #f0a93a); box-shadow: 0 6px 18px rgba(240,169,58,.3); }
+  .call-pill:focus-visible { outline: 3px solid var(--blush); outline-offset: 3px; }
 
   .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
   .btns.tight { margin-top: 16px; }
@@ -196,7 +219,8 @@
   html[lang="te"] .love .signature { font-family: 'Noto Serif Telugu', serif; font-weight: 700; font-size: 2rem; }
 
   @media (prefers-reduced-motion: reduce) {
-    .glow span, .names, .art, .flame, .petal, .open-btn, .more svg { animation: none; }
+    .glow span, .names, .art, .flame, .petal, .open-btn, .more svg, .done p, .done.pop, .spark { animation: none; }
+    .spark { display: none; }
     .reveal { transition: none; }
     .door, .gate-center { transition: none; }
     .petals { display: none; }
@@ -306,7 +330,7 @@
       </svg>
     </div>
 
-    <p class="intro" data-i18n="intro">Together with our families, we invite you to the wedding of</p>
+    <p class="intro" id="introTxt" data-i18n="intro">Together with our families, we invite you to the wedding of</p>
     <h1 class="names">
       <span class="nm" id="groom">Groom</span>
       <span class="amp">&amp;</span>
@@ -320,11 +344,21 @@
   </section>
 
   <section id="details">
-    <div class="count">
+    <div class="count" id="countBox">
       <div><b id="d">--</b><small data-i18n="days">days</small></div>
       <div><b id="h">--</b><small data-i18n="hours">hours</small></div>
       <div><b id="m">--</b><small data-i18n="minutes">minutes</small></div>
       <div><b id="s">--</b><small data-i18n="seconds">seconds</small></div>
+    </div>
+
+    <div class="done" id="done" hidden aria-live="polite">
+      <span class="spark" style="left:8%;top:22%;animation-delay:0s"></span>
+      <span class="spark" style="left:20%;top:78%;animation-delay:.6s"></span>
+      <span class="spark" style="left:36%;top:12%;animation-delay:1.2s"></span>
+      <span class="spark" style="left:64%;top:84%;animation-delay:.3s"></span>
+      <span class="spark" style="left:80%;top:18%;animation-delay:.9s"></span>
+      <span class="spark" style="left:93%;top:70%;animation-delay:1.5s"></span>
+      <p id="doneMsg"></p>
     </div>
 
     <h2 class="sec-title" data-i18n="weddingTitle">The Wedding</h2>
@@ -364,13 +398,16 @@
 
     <section class="card center" aria-labelledby="rsvpTitle">
       <h2 class="sec-title" id="rsvpTitle" data-i18n="rsvpTitle">Contact &amp; RSVP</h2>
-      <p class="phone" id="phoneText"></p>
+      <div class="phones" id="phones"></div>
       <div class="btns">
-        <a class="btn primary" id="callBtn">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" style="vertical-align:-3px;margin-right:8px"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.6 21 3 13.4 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.57 3.6a1 1 0 0 1-.25 1z"/></svg><span data-i18n="callBtn">Call Now</span>
-        </a>
         <a class="btn" id="rsvpBtn" target="_blank" rel="noopener" data-i18n="rsvpBtn">RSVP on WhatsApp</a>
       </div>
+    </section>
+
+    <section class="card center post-only" aria-labelledby="keepTitle">
+      <h2 class="sec-title" id="keepTitle" data-i18n="keepTitle">Married on 25 November 2026</h2>
+      <p class="venue-name keep-place" data-i18n="keepPlace">Sri Krishna Function Hall, Ieeja</p>
+      <div class="btns tight"><a class="btn primary" id="wishBtn" target="_blank" rel="noopener" data-i18n="wishBtn">Send your wishes</a></div>
     </section>
 
     <section class="card center song" id="songCard" aria-labelledby="songTitle">
@@ -398,6 +435,7 @@ const CONFIG = {
   brideTe: "ఇ. మనస్వి",
   lat: 16.02634143275107,
   lng: 77.66928280282006,
+  phones: ["919148039815", "917671939828"],   // shown in this order; the first one also receives WhatsApp RSVPs
   whatsappNumber: "919148039815",
   // Optional YouTube clip (seconds). Not used now: music.mp3 plays instead.
   youtube: null,   // set to { id: "...", start: 0, end: 30 } to use a YouTube clip instead
@@ -405,10 +443,12 @@ const CONFIG = {
 };
 /* ================================= */
 
-const WEDDING = new Date(2026, 10, 25, 9, 25, 0);
+const WEDDING = new Date("2026-11-25T09:25:00+05:30");   // 9:25 AM India time, the same moment for every guest
+const WEDDING_DAY = "2026-11-25";
 const pad = n => String(n).padStart(2, '0');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = id => document.getElementById(id);
+let doneKey = null, ticked = false;
 
 /* ---------- translations ---------- */
 const T = {
@@ -427,7 +467,12 @@ const T = {
     rsvpTitle: "Contact & RSVP", callBtn: "Call Now", rsvpBtn: "RSVP on WhatsApp",
     giftTitle: "Your presence is the best gift", giftText: "Please come and bless us. We can't wait to celebrate with you.",
     withLove: "With love", signature: "Sathish & Manaswi", songTitle: "Sita Rama Kalyanam",
+    doneToday: "Today is the big day! The wedding is happening now.", doneAfter: "Thank you for celebrating with us.",
     greetNamed: n => "Dear " + n + " garu, you're invited", greetPlain: "You're invited",
+    greetAfterNamed: n => "Dear " + n + " garu, thank you", greetAfterPlain: "With gratitude",
+    introAfter: "With your blessings, we celebrated the wedding of",
+    keepTitle: "Married on 25 November 2026", keepPlace: "Sri Krishna Function Hall, Ieeja", wishBtn: "Send your wishes",
+    waWish: n => (n ? n + " here. " : "") + "Congratulations Sathish & Manaswi! Wishing you both a lifetime of happiness 💐",
     wa: n => (n ? n + " here. " : "") + "Namaste! I will be attending the wedding on 25 Nov 2026 🎉",
     switchLabel: "తెలుగు", title: "Wedding Invitation"
   },
@@ -446,7 +491,12 @@ const T = {
     rsvpTitle: "సంప్రదించండి", callBtn: "ఇప్పుడే కాల్ చేయండి", rsvpBtn: "వాట్సాప్‌లో తెలియజేయండి",
     giftTitle: "మీ రాకే మాకు అసలైన కానుక", giftText: "దయచేసి విచ్చేసి మమ్మల్ని ఆశీర్వదించండి. మీతో ఈ వేడుక జరుపుకోవడానికి ఎదురుచూస్తున్నాము.",
     withLove: "ప్రేమతో", signature: "సతీష్ & మనస్వి", songTitle: "సీతారామ కళ్యాణం",
+    doneToday: "ఈ రోజే మా పెళ్లి!", doneAfter: "మాతో వేడుక జరుపుకున్నందుకు ధన్యవాదాలు.",
     greetNamed: n => "ప్రియమైన " + n + " గారూ, మీకు ఆహ్వానం", greetPlain: "మీకు ఆహ్వానం",
+    greetAfterNamed: n => "ప్రియమైన " + n + " గారూ, ధన్యవాదాలు", greetAfterPlain: "కృతజ్ఞతలు",
+    introAfter: "మీ ఆశీస్సులతో వివాహ వేడుక జరుపుకున్న",
+    keepTitle: "25 నవంబర్ 2026న వివాహం", keepPlace: "శ్రీ కృష్ణ ఫంక్షన్ హాల్, ఐజ", wishBtn: "మీ శుభాకాంక్షలు పంపండి",
+    waWish: n => (n ? n + ". " : "") + "సతీష్ & మనస్వికి శుభాకాంక్షలు! మీ ఇద్దరి జీవితం సుఖసంతోషాలతో నిండాలని కోరుకుంటున్నాను 💐",
     wa: n => (n ? n + ". " : "") + "నమస్కారం! 25 నవంబర్ 2026 వివాహానికి నేను హాజరవుతాను 🎉",
     switchLabel: "English", title: "వివాహ ఆహ్వానం"
   }
@@ -461,34 +511,62 @@ function applyLang(l) {
   lang = l;
   const t = T[l];
   document.documentElement.lang = l;
+  const post = doneKey === 'doneAfter';
+  $('introTxt').dataset.i18n = post ? 'introAfter' : 'intro';
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t[el.dataset.i18n]; });
   $('groom').textContent = l === 'te' ? CONFIG.groomTe : CONFIG.groom;
   $('bride').textContent = l === 'te' ? CONFIG.brideTe : CONFIG.bride;
-  const g = guest ? t.greetNamed(guest) : t.greetPlain;
+  const g = post ? (guest ? t.greetAfterNamed(guest) : t.greetAfterPlain) : (guest ? t.greetNamed(guest) : t.greetPlain);
   $('greet').textContent = g;
   $('gateGreet').textContent = g;
   $('langBtn').textContent = t.switchLabel;
+  $('wishBtn').href = "https://wa.me/" + CONFIG.whatsappNumber + "?text=" + encodeURIComponent(t.waWish(guest));
   $('rsvpBtn').href = "https://wa.me/" + CONFIG.whatsappNumber + "?text=" + encodeURIComponent(t.wa(guest));
   document.title = t.title;
+  if (doneKey) $('doneMsg').textContent = t[doneKey];
 }
 
 /* ---------- links ---------- */
 const pin = CONFIG.lat + "," + CONFIG.lng;
 $('pinBtn').href = "https://www.google.com/maps/search/?api=1&query=" + pin;
 $('dirBtn').href = "https://www.google.com/maps/dir/?api=1&destination=" + pin;
-$('callBtn').href = "tel:+" + CONFIG.whatsappNumber;
-$('phoneText').textContent = "+" + CONFIG.whatsappNumber.slice(0, 2) + " " + CONFIG.whatsappNumber.slice(2, 7) + " " + CONFIG.whatsappNumber.slice(7);
+const phoneIcon = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.6 21 3 13.4 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.57 3.6a1 1 0 0 1-.25 1z"/></svg>';
+CONFIG.phones.forEach(n => {
+  const row = document.createElement('div'); row.className = 'phone-row';
+  const num = document.createElement('span'); num.className = 'phone';
+  num.textContent = "+" + n.slice(0, 2) + " " + n.slice(2, 7) + " " + n.slice(7);
+  const call = document.createElement('a'); call.className = 'call-pill'; call.href = "tel:+" + n;
+  call.innerHTML = phoneIcon + '<span data-i18n="callBtn">Call Now</span>';
+  row.append(num, call); $('phones').appendChild(row);
+});
 
 $('langBtn').addEventListener('click', () => applyLang(lang === 'en' ? 'te' : 'en'));
 applyLang(lang);
 
 /* ---------- countdown ---------- */
+function showDone(now) {
+  const indiaToday = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);   // e.g. 2026-11-25
+  const sameDay = indiaToday === WEDDING_DAY;
+  const key = sameDay ? 'doneToday' : 'doneAfter';
+  if (doneKey === key) return;
+  doneKey = key;
+  document.body.classList.toggle('after', key === 'doneAfter');
+  $('countBox').hidden = true;
+  $('done').hidden = false;
+  applyLang(lang);
+  const box = $('done');
+  box.classList.remove('pop'); void box.offsetWidth; box.classList.add('pop');   // replay the pop-in
+  if (ticked && !document.body.classList.contains('locked')) burst();          // petals if it happens live
+}
 function tick() {
-  const s = Math.floor(Math.max(0, WEDDING - new Date()) / 1000);
+  const now = new Date();
+  if (now >= WEDDING) { showDone(now); ticked = true; return; }
+  const s = Math.floor((WEDDING - now) / 1000);
   $('d').textContent = Math.floor(s / 86400);
   $('h').textContent = pad(Math.floor(s % 86400 / 3600));
   $('m').textContent = pad(Math.floor(s % 3600 / 60));
   $('s').textContent = pad(s % 60);
+  ticked = true;
 }
 tick(); setInterval(tick, 1000);
 
@@ -710,7 +788,7 @@ const Auto = (() => {
 
   function step() {
     timer = null;
-    if (manualOff || finished || held || document.hidden) return;
+    if (manualOff || finished || held || document.hidden || document.body.classList.contains('after')) return;
     const y = nextY();
     if (y === null) { finished = true; setBtn(); return; }     // reached the end: stop
     glide(y, () => schedule(DWELL));
@@ -746,7 +824,7 @@ const Auto = (() => {
   });
 
   function start(delay) {
-    if (reduce) return;                          // respect "reduce motion"
+    if (reduce || document.body.classList.contains('after')) return;   // no auto-scroll after the wedding or with reduce-motion
     started = true;
     btn.classList.add('show');
     schedule(delay);
